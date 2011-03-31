@@ -1,0 +1,3 @@
+module Wiki
+  # Your code goes here...
+end
