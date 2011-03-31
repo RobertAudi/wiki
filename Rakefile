@@ -25,3 +25,4 @@ desc "Run the server using shotgun"
 task :server do
   sh %{bundle exec shotgun --server=thin --port=9393 config.ru}
 end
+task :s => :server
