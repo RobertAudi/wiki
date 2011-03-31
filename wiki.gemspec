@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["aziz@azizlight.me"]
   s.homepage    = ""
   s.summary     = %q{A Sinatra-base wiki}
-  s.description = %q{Sinik is a wiki written using Sinatra.}
+  s.description = %q{A personal wiki written using Sinatra.}
 
   s.add_dependency "sinatra", "1.2.1"
   
