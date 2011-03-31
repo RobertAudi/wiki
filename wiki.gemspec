@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.description = %q{A personal wiki written using Sinatra.}
 
   s.add_dependency "sinatra", "1.2.1"
+  s.add_dependency "thin", "1.2.11"
   
   s.add_development_dependency "shotgun",         "0.9"
   s.add_development_dependency "minitest",        "2.0.2"
