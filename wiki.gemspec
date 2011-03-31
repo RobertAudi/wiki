@@ -6,13 +6,18 @@ Gem::Specification.new do |s|
   s.name        = "wiki"
   s.version     = Wiki::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
+  s.authors     = ["Aziz Light"]
+  s.email       = ["aziz@azizlight.me"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{A Sinatra-base wiki}
+  s.description = %q{Sinik is a wiki written using Sinatra.}
 
-  s.rubyforge_project = "wiki"
+  s.add_dependency "sinatra", "1.2.1"
+  
+  s.add_development_dependency "minitest", "2.0.2"
+  s.add_development_dependency "mynyml-redgreen", "0.7.1"
+  s.add_development_dependency "watchr", "0.7"
+  s.add_development_dependency "autowatchr", "0.1.5"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
