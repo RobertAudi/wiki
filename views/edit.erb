@@ -1,0 +1,18 @@
+ | <a href="/<%= params[:page] %>/delete">delete</a>
+<form action="/<%= params[:page] %>/edit" method="post" accept-charset="utf-8">
+  <div style="margin:0;padding:0">
+    <input name="_method" type="hidden" value="put" />
+  </div>
+    
+  <div class="field">
+    <p><label for="title">Title</label><br />
+    <input type="text" name="title" value="<%= @title %>" id="title" /></p>
+  </div>
+
+  <div class="field">
+    <p><label for="body">Body</label><br />
+    <textarea name="body" id="body" rows="8" cols="40"><%= @body %></textarea></p>
+  </div>
+
+  <p><input type="submit" value="Edit" /></p>
+</form>

@@ -1,0 +1,9 @@
+Are you sure you want to delete the following page: <%= params[:page] %>?
+
+<form action="/<%= params[:page] %>/delete" method="post" accept-charset="utf-8">
+  <div style="margin:0;padding:0">
+    <input name="_method" type="hidden" value="delete" />
+  </div>
+
+  <p><input type="submit" value="Yes!" /></p>
+</form>

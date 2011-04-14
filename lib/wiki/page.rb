@@ -11,47 +11,85 @@ module Wiki
 
       @filename = ""
       @filepath = ""
-      
+
       unless title.nil? || title.empty?
         @title = title
       end
-      
+
       @body = body
     end
 
     def save
       raise "Invalid title" unless validate(title)
-      @filename = title + ".markdown"
+      @filename = slugalize(title) + ".markdown"
       @filepath = File.join(@@data_dir, @filename)
-
-      if File.exists?(@filepath)
-        
-      else
-        File.open(@filepath, "w") do |f|
-          f.puts body
-        end
+      
+      # This might be bad, who knows...don't be evil, or stupid.
+      File.open(@filepath, "w") do |f|
+        f.puts body
       end
     end
-    
+
+    def self.list
+      data_dir = File.join(ENV['HOME'], ".wiki", "pages")
+      list     = Dir.glob(data_dir + "/*.markdown")
+      pages    = []
+
+      list.each do |page|
+        slug = page.rpartition("/").last.split(".").first
+        title = humanize slug
+
+        pages << { slug: slug, title: title }
+      end
+
+      pages
+    end
+
+    def self.get(page)
+      data_dir = File.join(ENV['HOME'], ".wiki", "pages")
+      page = File.join(data_dir, page + ".markdown")
+      
+      body = ""
+      if File.exists?(page)
+        body = File.read(page)
+      else
+        body = "This page doesn't exist yet!"
+      end
+
+      slug = page.rpartition("/").last.split(".").first
+      title = humanize slug
+      
+      { title: title, body: body }
+    end
+
+    def self.delete!(page)
+      data_dir = File.join(ENV['HOME'], ".wiki", "pages")
+      page = File.join(data_dir, page + ".markdown")
+      
+      if File.exists?(page)
+        File.delete(page)
+      end
+    end
+
     def file
       @filename
     end
-    
+
     def data_dir
       @@data_dir
     end
-    
+
     def self.data_dir
       @@data_dir
     end
-    
+
     def title=(title)
       raise unless validate(title)
-      @title = slugalize title
+      @title
     end
-    
+
     private
-    
+
     def set_data_dir
       data_dir = File.join(ENV['HOME'], ".wiki", "pages")
       if Dir.exists?(data_dir)
@@ -60,15 +98,15 @@ module Wiki
         FileUtils.mkdir_p(data_dir)
         @@data_dir = data_dir
       end
-      
+
       @@data_dir
     end
-    
+
     def validate(title)
       unless title.is_a?(String) && !title.empty?
         return false
       end
-      
+
       @title = title
     end
 
@@ -79,6 +117,11 @@ module Wiki
       title.downcase!
       title
     end
+
+    def self.humanize(title)
+      title.gsub(/-/, " ").capitalize
+    end
+
 
   end
 end
