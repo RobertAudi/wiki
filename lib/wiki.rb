@@ -36,7 +36,11 @@ module Wiki
     end
 
     get '/login/?' do
-      erb :login
+      if logged_in?
+        redirect '/'
+      else
+        erb :login
+      end
     end
 
     post '/login' do
