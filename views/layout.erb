@@ -6,8 +6,18 @@
     <title>Wiki</title>
   </head>
   <body>
-    <a href="/">Home</a> | <a href="/create">Create a new page</a>
-    
+    <ul>
+      <li><a href="/">Home</a></li>
+      <% unless request.path_info =~ /login/ %>
+        <li><a href="/create">Create a new page</a></li>
+      <% end %>
+
+      <% unless request.path_info =~ /login|create|edit|delete|^$/ %>
+        <li><a href="/<%= params[:page] %>/edit">Edit</a></li>
+        <li><a href="/<%= params[:page] %>/delete">delete</a></li>
+      <% end %>
+    </ul>
+
     <%= yield %>
   </body>
 </html>
