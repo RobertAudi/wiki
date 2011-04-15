@@ -18,6 +18,8 @@ module Wiki
       
       set :auth do |bool|
         condition do
+          # remenber the previous route
+          session['route'] = request.path_info
           redirect '/login' unless logged_in?
         end
       end
@@ -41,7 +43,7 @@ module Wiki
       user = Wiki::User.get
       if user.authenticate(params[:username], params[:password])
         session[:user] = params[:username]
-        redirect '/'
+        redirect (session['route'] || '/')
       end
     end
 
