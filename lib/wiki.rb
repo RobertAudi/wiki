@@ -2,6 +2,7 @@ require "sinatra/base"
 require "erb"
 require "yaml"
 require "bcrypt"
+require "rdiscount"
 
 require_relative "wiki/page"
 require_relative "wiki/user"
@@ -70,7 +71,7 @@ module Wiki
     get '/:page' do
       page   = Page.get(params[:page])
       @title = page[:title]
-      @body  = page[:body] # FIXME: Render the markdown page in html?
+      @body  = RDiscount.new(page[:body]).to_html
       erb :show
     end
 
