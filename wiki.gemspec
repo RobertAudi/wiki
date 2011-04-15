@@ -1,10 +1,6 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "wiki/version"
-
 Gem::Specification.new do |s|
   s.name        = "wiki"
-  s.version     = Wiki::VERSION
+  s.version     = 0.1
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Aziz Light"]
   s.email       = ["aziz@azizlight.me"]
@@ -12,8 +8,9 @@ Gem::Specification.new do |s|
   s.summary     = %q{A Sinatra-base wiki}
   s.description = %q{A personal wiki written using Sinatra.}
 
-  s.add_dependency "sinatra", "1.2.1"
+  s.add_dependency "sinatra", "1.2.3"
   s.add_dependency "thin", "1.2.11"
+  s.add_dependency "bcrypt-ruby", "2.1.4"
   
   s.add_development_dependency "shotgun",         "0.9"
   s.add_development_dependency "minitest",        "2.0.2"

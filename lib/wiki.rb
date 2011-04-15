@@ -1,7 +1,9 @@
 require "sinatra/base"
 require "erb"
+require "bcrypt"
 
 require_relative "wiki/page"
+require_relative "wiki/user"
 
 module Wiki
   class App < Sinatra::Base
@@ -10,9 +12,39 @@ module Wiki
     configure do
       set :root, File.expand_path(File.join(File.dirname(__FILE__), '..'))
       set :app_file, __FILE__
+      set :sessions
+      
+      set :auth do |bool|
+        condition do
+          redirect '/login' unless logged_in?
+        end
+      end
+    end
+    
+    helpers do
+      def logged_in?
+        not @user.nil?
+      end
     end
 
-    get '/' do
+    before do
+      @user = session[:user]
+      p @user
+    end
+
+    get '/login/?' do
+      erb :login
+    end
+
+    post '/login' do
+      user = Wiki::User.get
+      if user.authenticate(params[:username], params[:password])
+        session[:user] = params[:username]
+        redirect '/'
+      end
+    end
+
+    get '/', :auth => true do
       @pages = Wiki::Page.list
       erb :list
     end

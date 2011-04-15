@@ -36,7 +36,7 @@ module Wiki
       pages    = []
 
       list.each do |page|
-        slug = page.rpartition("/").last.split(".").first
+        slug  = page.rpartition("/").last.split(".").first
         title = humanize slug
 
         pages << { slug: slug, title: title }
@@ -56,7 +56,7 @@ module Wiki
         body = "This page doesn't exist yet!"
       end
 
-      slug = page.rpartition("/").last.split(".").first
+      slug  = page.rpartition("/").last.split(".").first
       title = humanize slug
       
       { title: title, body: body }
