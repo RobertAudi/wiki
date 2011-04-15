@@ -1,5 +1,6 @@
 require "sinatra/base"
 require "erb"
+require "yaml"
 require "bcrypt"
 
 require_relative "wiki/page"
@@ -13,6 +14,7 @@ module Wiki
       set :root, File.expand_path(File.join(File.dirname(__FILE__), '..'))
       set :app_file, __FILE__
       set :sessions
+      set :session_secret, "N0m d3 D13u d3 put41n d3 60rd31 d3 m3rd3 d3 s4l0pEri3 dE conN4rd d'EnculE d3 t4 m3r3"
       
       set :auth do |bool|
         condition do
@@ -29,7 +31,6 @@ module Wiki
 
     before do
       @user = session[:user]
-      p @user
     end
 
     get '/login/?' do
@@ -44,16 +45,16 @@ module Wiki
       end
     end
 
-    get '/', :auth => true do
+    get '/' do
       @pages = Wiki::Page.list
       erb :list
     end
 
-    get '/create' do
+    get '/create', :auth => true do
       erb :create
     end
 
-    post '/create' do
+    post '/create', :auth => true do
       page = Wiki::Page.new(params[:title], params[:body])
       page.save
 
@@ -67,7 +68,7 @@ module Wiki
       erb :show
     end
 
-    get '/:page/edit' do
+    get '/:page/edit', :auth => true do
       page   = Page.get(params[:page])
       @title = page[:title]
       @body  = page[:body]
@@ -75,18 +76,18 @@ module Wiki
       erb :edit
     end
 
-    put '/:page/edit' do
+    put '/:page/edit', :auth => true do
       page  = Page.new(params[:title], params[:body])
       page.save
 
       redirect "/#{params[:page]}"
     end
 
-    get '/:page/delete' do
+    get '/:page/delete', :auth => true do
       erb :delete
     end
 
-    delete '/:page/delete' do
+    delete '/:page/delete', :auth => true do
       Page.delete!(params[:page])
       
       redirect "/"
