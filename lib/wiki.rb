@@ -14,7 +14,8 @@ module Wiki
     configure do
       set :root, File.expand_path(File.join(File.dirname(__FILE__), '..'))
       set :app_file, __FILE__
-      set :sessions
+
+      enable :sessions
       set :session_secret, "N0m d3 D13u d3 put41n d3 60rd31 d3 m3rd3 d3 s4l0pEri3 dE conN4rd d'EnculE d3 t4 m3r3"
       
       set :auth do |bool|
