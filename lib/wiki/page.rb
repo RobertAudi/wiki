@@ -24,7 +24,8 @@ module Wiki
       @filename = slugalize(title) + ".markdown"
       @filepath = File.join(@@data_dir, @filename)
       
-      # This might be bad, who knows...don't be evil, or stupid.
+      # FIXME: If the page is being edited and the user changes the title...
+      #        a new file will be created and the old one won't be deleted
       File.open(@filepath, "w") do |f|
         f.puts body
       end
