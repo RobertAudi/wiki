@@ -3,22 +3,41 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     
-    <title>Wiki</title>
+    <title>
+      <% if @title %>
+        <% if request.path_info =~ /edit/ %>
+          Editing <%= @title %> |
+        <% else %>
+          <%= @title %> |
+        <% end %>
+      <% end %>
+      Wiki
+    </title>
+    
+    <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" charset="utf-8" />
   </head>
   <body>
     <header>
-      <h1 id="title"><%= @title ? @title : "Wiki" %></h1>
-      <ul>
+      <ul id="nav">
         <li><a href="/">Home</a></li>
+
+        <% unless request.path_info =~ /login|create|edit|delete|^\/$/ %>
+          <li><a href="/<%= params[:page] %>/edit">Edit</a></li>
+          <li><a href="/<%= params[:page] %>/delete">Delete</a></li>
+        <% end %>
+
         <% unless request.path_info =~ /login/ %>
           <li><a href="/create">Create a new page</a></li>
         <% end %>
-
-        <% unless request.path_info =~ /login|create|edit|delete|^$/ %>
-          <li><a href="/<%= params[:page] %>/edit">Edit</a></li>
-          <li><a href="/<%= params[:page] %>/delete">delete</a></li>
-        <% end %>
       </ul>
+
+      <% if @title %>
+        <% unless request.path_info =~ /edit/ %>
+          <h1 id="title"><%= @title %></h1>
+        <% end %>
+      <% else %>
+        <h1 id="title">Wiki</h1>
+      <% end %>
     </header>
 
     <%= yield %>

@@ -1,5 +1,7 @@
+<section id="page-list">
 <ul>
   <% @pages.each do |page| %>
     <li><a href="/<%= page[:slug] %>"><%= page[:title] %></a></li>
   <% end %>
 </ul>
+</section>
