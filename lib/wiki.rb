@@ -17,16 +17,16 @@ module Wiki
 
       enable :sessions
       set :session_secret, "N0m d3 D13u d3 put41n d3 60rd31 d3 m3rd3 d3 s4l0pEri3 dE conN4rd d'EnculE d3 t4 m3r3"
-      
+
       set :auth do |bool|
         condition do
           # remenber the previous route
-          session['route'] = request.path_info
+          session[:route] = request.path_info
           redirect '/login' unless logged_in?
         end
       end
     end
-    
+
     helpers do
       def logged_in?
         not @user.nil?
@@ -35,6 +35,9 @@ module Wiki
 
     before do
       @user = session[:user]
+      unless request.path_info =~ /login/
+        session[:route] = nil
+      end
     end
 
     get '/login/?' do
@@ -49,8 +52,13 @@ module Wiki
       user = Wiki::User.get
       if user.authenticate(params[:username], params[:password])
         session[:user] = params[:username]
-        redirect (session['route'] || '/')
+        redirect (session[:route] || '/')
       end
+    end
+
+    get '/logout' do
+      session[:user] = nil
+      redirect '/'
     end
 
     get '/' do
@@ -80,7 +88,7 @@ module Wiki
       page   = Page.get(params[:page])
       @title = page[:title]
       @body  = page[:body]
-      
+
       erb :edit
     end
 
@@ -97,7 +105,7 @@ module Wiki
 
     delete '/:page/delete', :auth => true do
       Page.delete!(params[:page])
-      
+
       redirect "/"
     end
   end
