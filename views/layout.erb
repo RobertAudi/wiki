@@ -18,18 +18,30 @@
   </head>
   <body>
     <header>
-      <ul id="nav">
-        <li><a href="/">Home</a></li>
+      <section id="top-bar">
+        <section id="nav">
+          <ul>
+            <li><a href="/">Home</a></li>
 
-        <% unless request.path_info =~ /login|create|edit|delete|^\/$/ %>
-          <li><a href="/<%= params[:page] %>/edit">Edit</a></li>
-          <li><a href="/<%= params[:page] %>/delete">Delete</a></li>
-        <% end %>
+            <% unless request.path_info =~ /login|create|edit|delete|^\/$/ %>
+              <li><a href="/<%= params[:page] %>/edit">Edit</a></li>
+              <li><a href="/<%= params[:page] %>/delete">Delete</a></li>
+            <% end %>
 
-        <% unless request.path_info =~ /login/ %>
-          <li><a href="/create">Create a new page</a></li>
-        <% end %>
-      </ul>
+            <% unless request.path_info =~ /login/ %>
+              <li><a href="/create">Create a new page</a></li>
+            <% end %>
+          </ul>
+        </section>
+
+        <section id="auth">
+          <% if logged_in? %>
+            <p>Logged in as <%= @user %>. <a href="/logout">Logout</a></p>
+          <% else %>
+            <p><a href="/login/">Login</a></p>
+          <% end %>
+        </section>
+      </section> <!-- End #top-bar -->
 
       <% if @title %>
         <% unless request.path_info =~ /edit/ %>
@@ -40,6 +52,9 @@
       <% end %>
     </header>
 
-    <%= yield %>
+    <section id="page-wrap">
+      <%= yield %>
+    </section>
+
   </body>
 </html>
