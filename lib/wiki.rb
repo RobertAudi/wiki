@@ -86,6 +86,7 @@ module Wiki
 
     get '/:page/edit', :auth => true do
       page   = Page.get(params[:page])
+      session[:old_title] = page[:title]
       @title = page[:title]
       @body  = page[:body]
 
@@ -94,9 +95,14 @@ module Wiki
 
     put '/:page/edit', :auth => true do
       page  = Page.new(params[:title], params[:body])
+
+      # if old_title and title are not the same the page file will be deleted!
+      page.remove_old_file!(session[:old_title], params[:title])
+      session[:old_title] = nil
       page.save
 
-      redirect "/#{params[:page]}"
+      # redirect to the new page (assuming the page title changed)
+      redirect "/#{page.filename.rpartition(".").fetch(0)}"
     end
 
     get '/:page/delete', :auth => true do

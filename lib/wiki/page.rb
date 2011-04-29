@@ -2,7 +2,7 @@ require "fileutils"
 
 module Wiki
   class Page
-    attr_reader :title
+    attr_reader :title, :filename
     attr_accessor :body
     @@data_dir = ""
 
@@ -24,10 +24,18 @@ module Wiki
       @filename = slugalize(title) + ".markdown"
       @filepath = File.join(@@data_dir, @filename)
       
-      # FIXME: If the page is being edited and the user changes the title...
-      #        a new file will be created and the old one won't be deleted
       File.open(@filepath, "w") do |f|
         f.puts body
+      end
+    end
+
+    def remove_old_file!(old_title, new_title)
+      return if old_title == new_title
+
+      old_filename = slugalize(old_title) + ".markdown"
+      old_filepath = File.join(@@data_dir, old_filename)
+      if File.exists?(old_filepath)
+        File.delete(old_filepath)
       end
     end
 
