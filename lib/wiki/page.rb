@@ -23,7 +23,7 @@ module Wiki
       raise "Invalid title" unless validate(title)
       @filename = slugalize(title) + ".markdown"
       @filepath = File.join(@@data_dir, @filename)
-      
+
       File.open(@filepath, "w") do |f|
         f.puts body
       end
@@ -57,7 +57,7 @@ module Wiki
     def self.get(page)
       data_dir = File.join(ENV['HOME'], ".wiki", "pages")
       page = File.join(data_dir, page + ".markdown")
-      
+
       body = ""
       if File.exists?(page)
         body = File.read(page)
@@ -67,14 +67,14 @@ module Wiki
 
       slug  = page.rpartition("/").last.split(".").first
       title = humanize slug
-      
+
       { title: title, body: body }
     end
 
     def self.delete!(page)
       data_dir = File.join(ENV['HOME'], ".wiki", "pages")
       page = File.join(data_dir, page + ".markdown")
-      
+
       if File.exists?(page)
         File.delete(page)
       end
@@ -97,6 +97,19 @@ module Wiki
       @title
     end
 
+    def slugalize(title)
+      title.gsub!(/[^a-z0-9-]+/i, '-')
+      title.gsub!(/-{2,}/, '-')
+      title.gsub!(/^-|-$/, '')
+      title.downcase!
+      title
+    end
+
+    def self.humanize(title)
+      title.gsub(/-/, " ").capitalize
+    end
+
+    # -Private-Methods--------------------------------------------------------------
     private
 
     def set_data_dir
@@ -118,19 +131,6 @@ module Wiki
 
       @title = title
     end
-
-    def slugalize(title)
-      title.gsub!(/[^a-z0-9-]+/i, '-')
-      title.gsub!(/-{2,}/, '-')
-      title.gsub!(/^-|-$/, '')
-      title.downcase!
-      title
-    end
-
-    def self.humanize(title)
-      title.gsub(/-/, " ").capitalize
-    end
-
 
   end
 end
