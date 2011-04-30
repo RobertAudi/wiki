@@ -9,7 +9,7 @@ describe "Wiki::App" do
     response.length.must_equal 1
     
     response.each do |title|
-      title.text.must_equal "Wiki"
+      title.text.strip.must_equal "Wiki"
     end
   end
 
