@@ -96,6 +96,32 @@ header section#nav ul li:first-child a
   padding-left: 0;
 }
 
+header div.flash
+{
+  width: 700px;
+  margin: 70px 25px -40px 25px;
+  padding: 10px;
+  margin-bottom: -40px;
+}
+header div#success.flash
+{
+  border: 1px solid #c6d880;
+  background-color: #e6efc2;
+  color: #264409;
+}
+header div#error.flash
+{
+  border: 1px solid #fbc2c4;
+  background-color: #fbe3e4;
+  color: #8a1f11;
+}
+header div#notice.flash
+{
+  border: 1px solid #ffd324;
+  background-color: #fff6bf;
+  color: #514721;
+}
+
 section#page-wrap
 {
   margin-top: 25px;
@@ -150,8 +176,7 @@ section#page pre
 
 form
 {
-  margin: 25px;
-  margin-top: 65px;
+  margin: 25px 0;
 }
 form div.field
 {

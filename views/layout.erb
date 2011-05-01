@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    
+
     <title>
       <% if @title %>
         <% if request.path_info =~ /edit/ %>
@@ -13,7 +13,7 @@
       <% end %>
       Wiki
     </title>
-    
+
     <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" charset="utf-8" />
   </head>
   <body>
@@ -42,6 +42,14 @@
           <% end %>
         </section>
       </section> <!-- End #top-bar -->
+
+      <% if flash[:success] %>
+        <div id="success" class="flash"><%= flash[:success] %></div>
+      <% elsif flash[:error] %>
+        <div id="error" class="flash"><%= flash[:error] %></div>
+      <% elsif flash[:notice] %>
+        <div id="notice" class="flash"><%= flash[:notice] %></div>
+      <% end %>
 
       <% if @title %>
         <% unless request.path_info =~ /edit/ %>

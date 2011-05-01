@@ -158,8 +158,9 @@ module Wiki
 
     def self.get_title_from(body)
       lines = body.split("\n")
-      p lines
       title = lines[0..1]
+
+      return false if title.nil? || title.empty?
 
       if title.last =~ /^={3,}(?:\r)?$/
         title = title.first unless title.first.strip.split(//).first == "#"

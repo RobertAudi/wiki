@@ -12,7 +12,8 @@ Gem::Specification.new do |s|
   s.add_dependency "thin", "1.2.11"
   s.add_dependency "bcrypt-ruby", "2.1.4"
   s.add_dependency "rdiscount", "1.6.8"
-  
+  s.add_dependency "rack-flash", "0.1.1"
+
   s.add_development_dependency "shotgun",         "0.9"
   s.add_development_dependency "minitest",        "2.0.2"
   s.add_development_dependency "rack-test",       "0.5.7"

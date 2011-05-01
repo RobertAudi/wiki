@@ -3,6 +3,7 @@ require "erb"
 require "yaml"
 require "bcrypt"
 require "rdiscount"
+require "rack-flash"
 
 require_relative "wiki/page"
 require_relative "wiki/user"
@@ -10,6 +11,7 @@ require_relative "wiki/user"
 module Wiki
   class App < Sinatra::Base
     use Rack::MethodOverride
+    use Rack::Flash
 
     configure do
       set :root, File.expand_path(File.join(File.dirname(__FILE__), '..'))
@@ -22,7 +24,10 @@ module Wiki
         condition do
           # remenber the previous route
           session[:route] = request.path_info
-          redirect '/login' unless logged_in?
+          unless logged_in?
+            flash[:notice] = "You need to be logged in to access this page."
+            redirect '/login'
+          end
         end
       end
     end
@@ -52,17 +57,25 @@ module Wiki
       user = Wiki::User.get
       if user.authenticate(params[:username], params[:password])
         session[:user] = params[:username]
+
+        flash[:success] = "Logged in successfully!"
         redirect (session[:route] || '/')
+      else
+        flash[:error] = "Failed to log in..."
+        redirect 'login'
       end
     end
 
     get '/logout' do
       session[:user] = nil
+
+      flash[:success] = "Logged out successfully!"
       redirect '/'
     end
 
     get '/' do
       @pages = Wiki::Page.list
+
       erb :list
     end
 
@@ -74,7 +87,9 @@ module Wiki
       page = Wiki::Page.new(params)
       page.save
 
-      redirect "/"
+      flash[:success] = "Page created successfully!"
+      # FIXME: Redirect to the newly created page.
+      redirect "/#{page.file.rpartition(".").fetch(0)}"
     end
 
     get '/:page' do
@@ -97,6 +112,7 @@ module Wiki
       page  = Page.new(params)
       page.save(params["old_title"])
 
+      flash[:success] = "Page edited successfully!"
       # redirect to the new page (assuming the page title changed)
       redirect "/#{page.file.rpartition(".").fetch(0)}"
     end
@@ -108,6 +124,7 @@ module Wiki
     delete '/:page/delete', :auth => true do
       Page.delete!(params[:page])
 
+      flash[:success] = "Page deleted successfully!"
       redirect "/"
     end
   end
