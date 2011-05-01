@@ -7,7 +7,7 @@ describe "Wiki::App" do
     response = Nokogiri::HTML(last_response.body).css('title')
     response.first.text.wont_be_empty
     response.length.must_equal 1
-    
+
     response.each do |title|
       title.text.strip.must_equal "Wiki"
     end

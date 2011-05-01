@@ -71,22 +71,22 @@ module Wiki
     end
 
     post '/create', :auth => true do
-      page = Wiki::Page.new(params[:title], params[:body])
+      page = Wiki::Page.new(params)
       page.save
 
       redirect "/"
     end
 
     get '/:page' do
-      page   = Page.get(params[:page])
+      page   = Page.get(params[:page], true)
       @title = page[:title]
       @body  = RDiscount.new(page[:body]).to_html
+
       erb :show
     end
 
     get '/:page/edit', :auth => true do
       page   = Page.get(params[:page])
-      session[:old_title] = page[:title]
       @title = page[:title]
       @body  = page[:body]
 
@@ -94,15 +94,11 @@ module Wiki
     end
 
     put '/:page/edit', :auth => true do
-      page  = Page.new(params[:title], params[:body])
-
-      # if old_title and title are not the same the page file will be deleted!
-      page.remove_old_file!(session[:old_title], params[:title])
-      session[:old_title] = nil
-      page.save
+      page  = Page.new(params)
+      page.save(params["old_title"])
 
       # redirect to the new page (assuming the page title changed)
-      redirect "/#{page.filename.rpartition(".").fetch(0)}"
+      redirect "/#{page.file.rpartition(".").fetch(0)}"
     end
 
     get '/:page/delete', :auth => true do
