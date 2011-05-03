@@ -14,11 +14,13 @@
       Wiki
     </title>
 
+    <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print" charset="utf-8" />
     <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" charset="utf-8" />
   </head>
   <body>
     <header>
-      <section id="top-bar">
+      <section id="top-bar" class="clearfix">
         <section id="nav">
           <ul>
             <li><a href="/">Home</a></li>
@@ -32,7 +34,7 @@
               <li><a href="/create">Create a new page</a></li>
             <% end %>
           </ul>
-        </section>
+          </section> <!-- End of #nav -->
 
         <section id="auth">
           <% if logged_in? %>
