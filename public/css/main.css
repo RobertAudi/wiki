@@ -121,7 +121,11 @@ form
 }
 form div.field
 {
-  margin: 15px 0;
+  margin: 15px 0 0 0;
+}
+form div.field p
+{
+  margin: 0;
 }
 form div.field label
 {
@@ -140,4 +144,8 @@ form div.field textarea
 {
   font-size: 14px;
   height: 400px;
+}
+form p input
+{
+  margin: 0;
 }
