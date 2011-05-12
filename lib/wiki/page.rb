@@ -108,7 +108,6 @@ module Wiki
       Wiki::Page.set_data_dir
     end
 
-    # FIXME: If the data_dir wasn't set yet, then we have a problem...
     # what if the data dir doesn't exist....
     def self.data_dir
       set_data_dir
@@ -162,13 +161,13 @@ module Wiki
 
       return false if title.nil? || title.empty?
 
-      if title.last =~ /^={3,}(?:\r)?$/
-        title = title.first unless title.first.strip.split(//).first == "#"
+      if title.last =~ /^={3,}(?:\n)?$/
+        title = title.first unless title.first.strip =~ /^\#{1} /
         body = lines[2..-1].join
         return { title: title, body: body }
-      elsif title.first.strip.split(//).first =~ /^\#{1}/
+      elsif title.first.strip =~ /^\#{1} /
         body = lines[1..-1].join
-        title = title.first[1..-1].strip unless title.last =~ /^={3,}(?:\r)?$/
+        title = title.first[1..-1].strip unless title.last =~ /^={3,}(?:\n)?$/
         return { title: title, body: body }
       end
 

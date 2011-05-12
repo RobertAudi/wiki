@@ -88,7 +88,7 @@ module Wiki
       page.save
 
       flash[:success] = "Page created successfully!"
-      # FIXME: Redirect to the newly created page.
+      # Redirect to the newly created page.
       redirect "/#{page.file.rpartition(".").fetch(0)}"
     end
 
