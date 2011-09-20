@@ -51,7 +51,7 @@ module Wiki
     end
 
     def self.list
-      data_dir = File.join(ENV['HOME'], ".wiki", "pages")
+      data_dir = File.join(ENV['HOME'], "Dropbox", "wiki", "pages")
       list     = Dir.glob(data_dir + "/*.markdown")
       pages    = []
 
@@ -66,7 +66,7 @@ module Wiki
     end
 
     def self.get(page, get_title_from_body = false)
-      data_dir = File.join(ENV['HOME'], ".wiki", "pages")
+      data_dir = File.join(ENV['HOME'], "Dropbox", "wiki", "pages")
       page = File.join(data_dir, page + ".markdown")
 
       if File.exists?(page)
@@ -92,7 +92,7 @@ module Wiki
     end
 
     def self.delete!(page)
-      data_dir = File.join(ENV['HOME'], ".wiki", "pages")
+      data_dir = File.join(ENV['HOME'], "Dropbox", "wiki", "pages")
       page = File.join(data_dir, page + ".markdown")
 
       if File.exists?(page)
@@ -136,7 +136,7 @@ module Wiki
     def self.set_data_dir
       return @@data_dir unless @@data_dir.empty?
 
-      data_dir = File.join(ENV['HOME'], ".wiki", "pages")
+      data_dir = File.join(ENV['HOME'], "Dropbox", "wiki", "pages")
       if Dir.exists?(data_dir)
         @@data_dir = data_dir if @@data_dir.empty?
       else
