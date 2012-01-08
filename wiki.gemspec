@@ -8,9 +8,9 @@ Gem::Specification.new do |s|
   s.summary     = %q{A Sinatra-base wiki}
   s.description = %q{A personal wiki written using Sinatra.}
 
-  s.add_dependency "sinatra", "1.2.3"
-  s.add_dependency "thin", "1.2.11"
-  s.add_dependency "bcrypt-ruby", "2.1.4"
+  s.add_dependency "sinatra", "1.3.2"
+  s.add_dependency "thin", "1.3.1"
+  s.add_dependency "bcrypt-ruby", "3.0.1"
   s.add_dependency "rdiscount", "1.6.8"
   s.add_dependency "sinatra-flash", "0.3.0"
 
