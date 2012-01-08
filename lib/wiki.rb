@@ -3,7 +3,7 @@ require "erb"
 require "yaml"
 require "bcrypt"
 require "rdiscount"
-require "rack-flash"
+require "sinatra/flash"
 
 require_relative "wiki/page"
 require_relative "wiki/user"
@@ -11,7 +11,7 @@ require_relative "wiki/user"
 module Wiki
   class App < Sinatra::Base
     use Rack::MethodOverride
-    use Rack::Flash
+    register Sinatra::Flash
 
     configure do
       set :root, File.expand_path(File.join(File.dirname(__FILE__), '..'))
